@@ -3,7 +3,7 @@ function initializeViz() {
     var placeholderDiv = document.getElementById("tableauViz");
     // URL of the viz to be embedded
     // var url = "http://public.tableau.com/views/WorldIndicators/GDPpercapita";
-    // var url = "https://prod-apnortheast-a.online.tableau.com/t/wngd/views/Regional/GlobalTemperatures?:iid=2"
+    var url = "https://prod-apnortheast-a.online.tableau.com/t/wngd/views/Regional/GlobalTemperatures?:iid=2"
     
     // OwinhUfBSQKFQnk/+DYEWA==:scD3SdCiO1B10aeeukSftSALFEzulWpr
     // An object that contains options specifying how to embed the viz
