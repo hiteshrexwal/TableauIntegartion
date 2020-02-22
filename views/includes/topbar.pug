@@ -1,0 +1,33 @@
+// Topbar
+nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
+    // Sidebar Toggle (Topbar)
+    button#sidebarToggleTop.btn.btn-link.d-md-none.rounded-circle.mr-3
+        i.fa.fa-bars
+
+    h3.text-monospace.mt-3(style='\
+        color: #4e73df;\
+'       ) Tableau DashBoard
+    // Topbar Navbar
+    ul.navbar-nav.ml-auto
+        .topbar-divider.d-none.d-sm-block
+        // Nav Item - User Information
+        li.nav-item.dropdown.no-arrow
+            a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                span.mr-2.d-none.d-lg-inline.text-gray-600.small Admin
+                img.img-profile.rounded-circle(src='https://img.icons8.com/bubbles/2x/user.png')
+            // Dropdown - User Information
+            .dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='userDropdown')
+                a.dropdown-item(href='#')
+                    i.fas.fa-user.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   Profile
+                a.dropdown-item(href='#')
+                    i.fas.fa-cogs.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   Settings
+                a.dropdown-item(href='#')
+                    i.fas.fa-list.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   Activity Log
+                .dropdown-divider
+                a.dropdown-item(href='#' data-toggle='modal' data-target='#logoutModal')
+                    i.fas.fa-sign-out-alt.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   Logout
+// End of Topbar

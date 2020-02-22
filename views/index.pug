@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  #wrapper
+    include ./includes/sidebar.pug
+    #content-wrapper.d-flex.flex-column
+      // Main Content
+      #content
+        include ./includes/topbar.pug
+        .container-fluid
+          #tableauViz
+          .text-center.mt-3
+            button.btn.btn-outline-primary(type='button' onclick='exportPDF()') Export to PDF
+    
+
+
