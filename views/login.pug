@@ -16,10 +16,10 @@ block content
                                     h1.h4.text-gray-900.mb-4 Welcome Back!
                                 form.user(method='POST' ,action= '/api/login/')
                                     .form-group
-                                        input#exampleInputEmail.form-control.form-control-user(type='text' name="username" aria-describedby='emailHelp' placeholder='Enter Username...')(class= isEmailError ? "is-invalid" : "")
+                                        input#exampleInputEmail.form-control.form-control-user(type='text' name="username" aria-describedby='emailHelp' placeholder='Enter Username...', onkeyup="onValueChange(this)")(class= isEmailError ? "is-invalid" : "")
                                         .invalid-feedback.ml-3 Username is Required.
                                     .form-group
-                                        input#exampleInputPassword.form-control.form-control-user(type='password' name="password" placeholder='Password')(class= isPasswordError ? "is-invalid" : "")
+                                        input#exampleInputPassword.form-control.form-control-user(type='password' name="password" placeholder='Password',  onkeyup="onValueChange(this)")(class= isPasswordError ? "is-invalid" : "")
                                         .invalid-feedback.ml-3 Password is Required.
                                     button.btn.btn-primary.btn-user.btn-block.mt-5(type="button", onclick="login()")
                                         | Login
