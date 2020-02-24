@@ -11,6 +11,13 @@ block content
           #tableauViz
           .text-center.mt-3
             button.btn.btn-outline-primary(type='button' onclick='exportPDF()') Export to PDF
+
+  block appScript
+    script.
+      var tableauBaseUrl = '#{tableauBaseUrl}'
+      var siteName = '#{siteName}'
+    script(src=`${tableauBaseUrl}/javascripts/api/tableau-2.min.js`)
+    script(src="/javascripts/internal/index.js")
     
 
 

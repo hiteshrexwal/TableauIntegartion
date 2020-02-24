@@ -1,8 +1,19 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.loader{
+  background-color: rgba(0,0,0,0.7);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  display: none;
 }
 
-a {
-  color: #00B7FF;
+.body-overflow{
+  overflow: hidden;
+}
+
+.loader-image{
+  width: 100px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
 }
