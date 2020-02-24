@@ -32,7 +32,7 @@ $(document).ready(() => {
                 <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Views:</h6>
                   ${views.length ? views.map((item)=>(
-                    `<a class="collapse-item" data-parent="${workbook["name"]}" data-name="${item["name"]}" 
+                    `<a class="collapse-item" data-parent="${workbook["name"]}" data-name="${item["viewUrlName"]}" 
                       onclick="changeView(this)" href="#">${item["name"]}</a>`
                   )).join(' ') : '<a class="collapse-item" href="#">No views</a>'}
                 </div>
@@ -53,12 +53,12 @@ $(document).ready(() => {
 
           let workbookName = Object.keys(WorkbookAndFirstView)[0]
           let view = WorkbookAndFirstView[`${workbookName}`]
-          let url =  `${tableauBaseUrl}/t/${siteName}/views/${workbookName}/${view['name']}`
+          let url =  `${tableauBaseUrl}/t/${siteName}/views/${workbookName}/${view['viewUrlName']}`
           
           //adding active class to the view selected and opening the workbook in sidebar
-          $(`a[data-name="${view['name']}"]`).addClass('active')
-          $(`a[data-name="${view['name']}"]`).parent().parent().addClass('show')
-          $(`a[data-name="${view['name']}"]`).parent().parent().parent().find('a').removeClass('collapsed')
+          $(`a[data-name="${view['viewUrlName']}"]`).addClass('active')
+          $(`a[data-name="${view['viewUrlName']}"]`).parent().parent().addClass('show')
+          $(`a[data-name="${view['viewUrlName']}"]`).parent().parent().parent().find('a').removeClass('collapsed')
 
           initializeViz(url)
          
@@ -93,6 +93,7 @@ var changeView = (el) => {
   let workbookName = $(el).attr('data-parent')
   let viewName = $(el).attr('data-name')
   let url =  `${tableauBaseUrl}/t/${siteName}/views/${workbookName}/${viewName}`
+  console.log(url)
 
   viz.dispose()
 
