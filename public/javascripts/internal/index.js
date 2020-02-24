@@ -44,6 +44,7 @@ $(document).ready(() => {
         
       }).then(()=>{
         if(parseInt(currentIndex) + 1 === parseInt(workbooks.length)){
+          $('.loader').hide()
           for (var key in WorkbookAndFirstView) { 
             if (WorkbookAndFirstView[key] === null || WorkbookAndFirstView[key] === undefined) {
               delete WorkbookAndFirstView[key];
@@ -60,7 +61,7 @@ $(document).ready(() => {
           $(`a[data-name="${view['name']}"]`).parent().parent().parent().find('a').removeClass('collapsed')
 
           initializeViz(url)
-          $('.loader').hide()
+         
         }
           
       })
