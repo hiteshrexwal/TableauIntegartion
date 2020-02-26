@@ -113,7 +113,9 @@ var changeView = (el) => {
   let url =  `${tableauBaseUrl}/t/${siteName}/views/${workbookName}/${viewName}`
   console.log(url)
 
-  viz ? viz.dispose() : ''
+  if(typeof viz != "undefined"){
+    viz.dispose()
+  }
 
   initializeViz(url)
 }
