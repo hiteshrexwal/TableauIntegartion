@@ -53,6 +53,11 @@ $(document).ready(() => {
 
           let workbookName = Object.keys(WorkbookAndFirstView)[0]
           let view = WorkbookAndFirstView[`${workbookName}`]
+          
+          if(!view){
+            $('#no-view').removeClass('d-none')
+            return
+          }
           let url =  `${tableauBaseUrl}/t/${siteName}/views/${workbookName}/${view['viewUrlName']}`
           
           //adding active class to the view selected and opening the workbook in sidebar
@@ -70,6 +75,8 @@ $(document).ready(() => {
 })
 
 var initializeViz = (url) => {
+  $('#no-view').addClass('d-none')
+  $('#export-pdf').removeClass('d-none')
   // JS object that points at empty div in the html
   var placeholderDiv = document.getElementById("tableauViz");
   
@@ -86,16 +93,27 @@ var exportPDF = () => {
   viz.showExportPDFDialog();
 }
 
+var yearFilter = (year) => {
+  var sheet = viz.getWorkbook().getActiveSheet();
+  if (year === "") {
+      sheet.clearFilterAsync("Academic Year");
+  } else {
+      sheet.applyFilterAsync("Academic Year", year, tableau.FilterUpdateType.REPLACE);
+  }
+}
+
 var changeView = (el) => {
   $('.collapse-item').removeClass('active')
   $(el).addClass('active')
 
   let workbookName = $(el).attr('data-parent')
   let viewName = $(el).attr('data-name')
+
+  viewName === 'College' ? $('#year-filter').removeClass('d-none') : $('#year-filter').addClass('d-none')
   let url =  `${tableauBaseUrl}/t/${siteName}/views/${workbookName}/${viewName}`
   console.log(url)
 
-  viz.dispose()
+  viz ? viz.dispose() : ''
 
   initializeViz(url)
 }

@@ -8,9 +8,19 @@ block content
       #content
         include ./includes/topbar.pug
         .container-fluid
+          #no-view.d-none
+            .no-view-content No View Found in the selected workbook. Please change the workbook.
+            .no-view-help *For better experience of using this app please try to add atleast one view to this workbook
           #tableauViz
           .text-center.mt-3
-            button.btn.btn-outline-primary(type='button' onclick='exportPDF()') Export to PDF
+            .row.text-center.d-none#year-filter
+              .col
+                .label-year Select Year
+                select.form-control.select-year(onchange="yearFilter(value)")
+                  option(value="") All
+                  option(value="2013") 2013
+                  option(value="2014") 2014
+            button.btn.btn-outline-primary.d-none#export-pdf(type='button' onclick='exportPDF()') Export to PDF
 
   block appScript
     script.

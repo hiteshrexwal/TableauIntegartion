@@ -17,3 +17,21 @@
   left: 50%;
   top: 50%;
 }
+
+.label-year{
+  display: inline;
+}
+
+.select-year{
+  width: 6rem;
+  display: inline;
+  margin: 10px;
+}
+
+.no-view-content{
+  font-weight: 900;
+}
+
+.no-view-help{
+  font-size: 0.8rem;
+}

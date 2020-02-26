@@ -49,6 +49,11 @@ router.post('/login', (req, res) => {
             body: loginXmlData
         },
         function(error, response, body){
+
+            if(error){
+                res.send({"error":error})
+                return
+            }
             
             let json = parser.toJson(body,options);
             let tsResponseElement = json["tsResponse"]
@@ -93,6 +98,12 @@ router.get('/workbooks', (req, res) => {
             },
         },
         function(error, response, body){
+
+            if(error){
+                res.send({"error":error})
+                return
+            }
+
             let json = parser.toJson(body,options);
             let tsResponseElement = json["tsResponse"]
             let workbookJSOn = tsResponseElement["workbooks"]
@@ -124,6 +135,12 @@ router.get('/workbook/:workbookID/views', (req, res) => {
             },
         },
         function(error, response, body){
+
+            if(error){
+                res.send({"error":error})
+                return
+            }
+            
             let json = parser.toJson(body,options);
             let tsResponseElement = json["tsResponse"]
             let viewsJSOn = tsResponseElement["views"]
