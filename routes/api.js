@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const request = require("request");
 const parser = require('xml2json');
-const {tableauBaseUrl,myCache} = require("../bin/settings")
+const {tableauBaseUrl,myCache,siteName} = require("../bin/settings")
 
 
 const options = {
@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
 
     let loginXmlData = `<tsRequest>
                             <credentials name="${username}" password="${password}" >
-                            <site contentUrl="wngd" />
+                            <site contentUrl="${siteName}" />
                             </credentials>
                         </tsRequest>`
 
