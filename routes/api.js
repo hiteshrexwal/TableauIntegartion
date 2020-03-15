@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const request = require("request");
 const parser = require('xml2json');
+const {getViewData} = require('../utils/tableau')
 const {tableauBaseUrl,myCache,siteName} = require("../bin/settings")
 
 
@@ -145,6 +146,8 @@ router.get('/workbook/:workbookID/views', (req, res) => {
             let tsResponseElement = json["tsResponse"]
             let viewsJSOn = tsResponseElement["views"]
             myCache.set( "viewsJSOn", viewsJSOn, 14400 );
+
+            getViewData().then((values)=>console.log(values)).catch((error)=>console.log(error))
 
             res.send(viewsJSOn)
             

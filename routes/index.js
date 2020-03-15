@@ -13,7 +13,10 @@ router.get('/', function(req, res, next) {
     return
   }
 
-  res.render('index', { title: 'Tabeau Integration',tableauBaseUrl,siteName });
+  res.render('index', { 
+    title: 'Tabeau Integration',
+    tableauBaseUrl,
+    siteName,  });
 });
 
 router.get('/login', function(req, res, next) {

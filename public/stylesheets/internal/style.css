@@ -35,3 +35,9 @@
 .no-view-help{
   font-size: 0.8rem;
 }
+
+.filter-label{
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: rgba(0,0,0,0.7);
+}

@@ -1,4 +1,3 @@
-
 $(document).ready(() => {
   let WorkbookAndFirstView = {}
   $('.loader').show()
@@ -85,25 +84,95 @@ var initializeViz = (url) => {
     height: '80vh',
     hideTabs: true,
     hideToolbar: true,
+    onFirstInteractive: function() {
+      // The viz is now ready and can be safely used.
+      var sheet = viz.getWorkbook().getActiveSheet()
+      console.log("Sheet",sheet)
+
+      if (typeof sheet.getFiltersAsync !== "undefined") { 
+        var currentPos = 0
+        sheet.getFiltersAsync().always((filters) => {
+          for(filter of filters){
+            $('.filter-label').removeClass('d-none')
+
+            if(filter.getFilterType() === 'categorical'){
+
+              $('#allFilters .d-flex').append(
+                `
+                    <div class="col">
+                      <div class="label-year">
+                        ${filter.getFieldName()}
+                      </div>
+                      <select class="form-control select-year" onchange="applyFilterValue('${filter.getFieldName()}',value)">
+                        <option value="">All</option>
+                        ${filter.getAppliedValues().map((item)=>{
+                          return `<option value="${item.value}">${item.formattedValue}</option>`
+                        }).join('')}
+                      </select>
+                    </div>
+                `
+              )
+            }
+            else if(filter.getFilterType() === 'quantitative'){
+              console.log("min =",filter.getMin(),"max = ",filter.getMax(),"domain min = ",filter.getDomainMin(),"domain max = ",filter.getDomainMax())
+              console.log(filter.getFilterType())
+              console.log(filter.getFieldName())
+              $('.slider-filters').append(
+                `
+                  <div class="row">
+                    <div class="col">
+                      ${filter.getFieldName()}
+                    </div>
+                    <div class="col-4" id="slider-${currentPos}">
+                    </div>
+                  </div> 
+                  <div class="text-right" id="range-value-${currentPos}">Range:[${filter.getMin().formattedValue} - ${filter.getMax().formattedValue}]</div>
+                `
+              )
+              createSlider(
+                `slider-${currentPos}`,
+                `range-value-${currentPos}`,
+                filter.getMin(),
+                filter.getMax(),
+                filter.getDomainMin(),
+                filter.getDomainMax(),
+                filter.getFieldName()
+                )
+            }
+            else{
+              console.log(filter.getFilterType())
+            }
+            currentPos++
+          }
+        })
+      }
+      else{
+        console.log("no async filter")
+      }
+    }
   };
   viz = new tableau.Viz(placeholderDiv, url, options);
+  
 }
 
 var exportPDF = () => {
   viz.showExportPDFDialog();
 }
 
-var yearFilter = (year) => {
+var applyFilterValue = (filterName,value) => {
   var sheet = viz.getWorkbook().getActiveSheet();
-  if (year === "") {
-      sheet.clearFilterAsync("Academic Year");
+  if (value === "") {
+      sheet.clearFilterAsync(filterName);
   } else {
-      sheet.applyFilterAsync("Academic Year", year, tableau.FilterUpdateType.REPLACE);
+      sheet.applyFilterAsync(filterName, value, tableau.FilterUpdateType.REPLACE);
   }
 }
 
 var changeView = (el) => {
+  $('.filter-label').addClass('d-none')
+  $('#allFilters .d-flex').empty()
   $('.collapse-item').removeClass('active')
+  $('.slider-filters').empty()
   $(el).addClass('active')
 
   let workbookName = $(el).attr('data-parent')
@@ -118,4 +187,48 @@ var changeView = (el) => {
   }
 
   initializeViz(url)
+}
+
+const createSlider = (id,rangeId,min,max,startMin,endMin,filterName) => {
+  console.log(id,min,max,startMin,endMin)
+    var slider = document.getElementById(`${id}`);
+    console.log(slider)
+    noUiSlider.create(slider, {
+        start: [min.value, max.value],
+        connect: true,
+        range: {
+            "min":startMin.value,
+            "max":endMin.value
+        }
+    });
+
+    slider.noUiSlider.on('change', function(values){
+      console.log(filterName)
+      console.log("here")
+      var sheet = viz.getWorkbook().getActiveSheet()
+
+      if (typeof sheet.applyRangeFilterAsync !== "undefined" && values.length > 1) { 
+        console.log("inside apply",values)
+        var minValue = values[0]
+        var maxValue = values[1]
+        if(filterName === 'Date'){
+          minValue = new Date(parseFloat(minValue))
+          minValue = new Date(Date.UTC(minValue.getFullYear(),minValue.getMonth(),minValue.getDate()))
+          maxValue = new Date(parseFloat(maxValue))
+          maxValue = new Date(Date.UTC(maxValue.getFullYear(),maxValue.getMonth(),maxValue.getDate()))
+          console.log(minValue,maxValue)
+          $(`#${rangeId}`).text(
+            `Range:[${minValue.getDate() + '/' + minValue.getMonth() + '/' + minValue.getFullYear()} -
+               ${maxValue.getDate() + '/' + maxValue.getMonth() + '/' + maxValue.getFullYear()}]`)
+        }
+
+        sheet.applyRangeFilterAsync(filterName, {
+          // min: new Date(values[0]),
+          // max: new Date(values[1])
+          min: minValue,
+          max: maxValue
+        });
+        
+      }
+    })
 }

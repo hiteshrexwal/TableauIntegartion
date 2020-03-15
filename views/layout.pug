@@ -13,19 +13,23 @@ head
   // Custom styles for this template
   link(href='/stylesheets/internal/sb-admin-2.css' rel='stylesheet')
   link(href="/stylesheets/internal/style.css" rel="stylesheet")
+  block extraStyles
 
 body(class= isBlueBackground ? "blue-back" : "")
   .loader
     img.loader-image(src="/images/loader.gif" alt='Loading Icon')
 
   block content
-  // Bootstrap core JavaScript
-  script(src='/javascripts/vendor/jquery-3.3.1.min.js')
-  script(src='/javascripts/vendor/bootstrap.min.js')
-  // Core plugin JavaScript
-  //- script(src='vendor/jquery-easing/jquery.easing.min.js')
-  // Custom scripts for all pages
-  script(src='/javascripts/internal/sb-admin-2.min.js')
-  script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
+
+  block commonScript
+    // Bootstrap core JavaScript
+    script(src='/javascripts/vendor/jquery-3.3.1.min.js')
+    script(src='/javascripts/vendor/bootstrap.min.js')
+    // Core plugin JavaScript
+    //- script(src='vendor/jquery-easing/jquery.easing.min.js')
+    // Custom scripts for all pages
+    script(src='/javascripts/internal/sb-admin-2.min.js')
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@9")
 
   block appScript
+
