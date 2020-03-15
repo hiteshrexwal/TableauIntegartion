@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const request = require("request");
 const parser = require('xml2json');
-const {getViewData} = require('../utils/tableau')
+const csv = require("csvtojson");
 const {tableauBaseUrl,myCache,siteName} = require("../bin/settings")
 
 
@@ -147,13 +147,66 @@ router.get('/workbook/:workbookID/views', (req, res) => {
             let viewsJSOn = tsResponseElement["views"]
             myCache.set( "viewsJSOn", viewsJSOn, 14400 );
 
-            getViewData().then((values)=>console.log(values)).catch((error)=>console.log(error))
-
             res.send(viewsJSOn)
             
         }
     );    
 
+})
+
+router.get('/workbook/:workbookID/views/:viewID/filterData', (req,res) => {
+    let viewID = req.params.viewID;
+    let filterNameList = req.query.filterNameList
+    let token = myCache.get("token")
+    let siteID = myCache.get("siteID")
+
+    if (!token || !siteID ){
+        return {err:'No token or siteId'}
+    }
+
+    let result = {}
+
+    if(myCache.has(`view-${viewID}`)){
+        data = myCache.get(`view-${viewID}`)
+        filterNameList.forEach(item => result[item] = data[item])
+        res.send(result)
+        return
+    }
+
+    request(
+        {
+            url:`${tableauBaseUrl}/api/3.6/sites/${siteID}/views/${viewID}/data`,
+            port: 80,
+            method:"GET",
+            headers:{
+                'X-Tableau-Auth': token,
+            },
+        },
+        function(error, response, body){
+
+            if(error){
+                console.log("Error in fetching data source")
+                return
+            }
+
+            csv({
+                noheader:true,
+                output: "csv"
+            })
+            .fromString(body)
+            .then((csvRow)=>{ 
+                let data = csvRow[0].map((col, i) => Array.from(new Set(csvRow.map(row => row[i]))))
+                dataDict = {}
+                for(row of data){
+                    dataDict[`${row[0]}`] = row.slice(1)
+                }
+                myCache.set(`view-${viewID}`,dataDict,14400)
+                filterNameList.forEach(item => result[item] = dataDict[item])
+                res.send(result)
+            })
+            
+        }
+    );  
 })
 
 
