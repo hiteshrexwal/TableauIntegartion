@@ -253,12 +253,4 @@ var changeView = (el) => {
   initializeViz(url,workbookID,viewID)
 }
 
-var filterData = (filterNameList,workbookID,viewID) => {
-  $.get(`/api/workbook/${workbookID}/views/${viewID}/filterData`,{
-    filterNameList
-  },(response) => {
-    console.log(response)
-  })
-}
-
 

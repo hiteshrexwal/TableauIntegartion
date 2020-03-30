@@ -19,6 +19,33 @@ router.get('/', function(req, res, next) {
     siteName,  });
 });
 
+router.get('/v2', function(req, res, next) {
+
+  if(!myCache.get("token")){
+    res.redirect('/login') 
+    return
+  }
+
+  res.render('indexV2', { 
+    title: 'Tabeau Integration',
+    tableauBaseUrl,
+    siteName,  });
+});
+
+
+router.get('/v3', function(req, res, next) {
+
+  if(!myCache.get("token")){
+    res.redirect('/login') 
+    return
+  }
+
+  res.render('indexV3', { 
+    title: 'Tabeau Integration',
+    tableauBaseUrl,
+    siteName,  });
+});
+
 router.get('/login', function(req, res, next) {
   res.render('login', { isBlueBackground: true });
 });

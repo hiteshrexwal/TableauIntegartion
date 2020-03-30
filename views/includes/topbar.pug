@@ -13,6 +13,20 @@ nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
         // Nav Item - User Information
         li.nav-item.dropdown.no-arrow
             a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                span.mr-2.d-none.d-lg-inline.text-gray-600.small Select Version
+            // Dropdown - User Information
+            .dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='userDropdown')
+                a.dropdown-item(href='/')
+                    i.fas.fa-user.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   V1
+                a.dropdown-item(href='/v2')
+                    i.fas.fa-cogs.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   V2
+                a.dropdown-item(href='/v3')
+                    i.fas.fa-list.fa-sm.fa-fw.mr-2.text-gray-400
+                    |                   V3
+        li.nav-item.dropdown.no-arrow
+            a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                 span.mr-2.d-none.d-lg-inline.text-gray-600.small Admin
                 img.img-profile.rounded-circle(src='https://img.icons8.com/bubbles/2x/user.png')
             // Dropdown - User Information

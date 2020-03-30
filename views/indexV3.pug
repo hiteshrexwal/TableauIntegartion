@@ -1,0 +1,29 @@
+extends layout
+
+block extraStyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.3/nouislider.min.css")
+
+block content
+  #wrapper
+    include ./includes/sidebar.pug
+    #content-wrapper.d-flex.flex-column
+      // Main Content
+      #content
+        include ./includes/topbar.pug
+        .container-fluid
+          #no-view.d-none
+            .no-view-content No View Found in the selected workbook. Please change the workbook.
+            .no-view-help *For better experience of using this app please try to add atleast one view to this workbook
+              
+          #tableauViz
+
+block appScript
+  script.
+    var tableauBaseUrl = '#{tableauBaseUrl}'
+    var siteName = '#{siteName}'
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.3/nouislider.js")
+  script(src=`${tableauBaseUrl}/javascripts/api/tableau-2.min.js`)
+  script(src="/javascripts/internal/index-v3.js")
+    
+
+

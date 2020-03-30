@@ -3,6 +3,7 @@ const router = express.Router();
 const request = require("request");
 const parser = require('xml2json');
 const csv = require("csvtojson");
+const fs = require("fs")
 const {tableauBaseUrl,myCache,siteName} = require("../bin/settings")
 
 
@@ -205,6 +206,47 @@ router.get('/workbook/:workbookID/views/:viewID/filterData', (req,res) => {
                 res.send(result)
             })
             
+        }
+    );  
+})
+
+router.get('/views/:viewID/image', (req,res) => {
+    let viewID = req.params.viewID;
+    let filterNameList = req.query.filterNameList
+    let token = myCache.get("token")
+    let siteID = myCache.get("siteID")
+
+    if (!token || !siteID ){
+        return {err:'No token or siteId'}
+    }
+
+    let result = {}
+
+    if(myCache.has(`view-${viewID}`)){
+        data = myCache.get(`view-${viewID}`)
+        filterNameList.forEach(item => result[item] = data[item])
+        res.send(result)
+        return
+    }
+
+    request(
+        {
+            url:`${tableauBaseUrl}/api/3.6/sites/${siteID}/views/${viewID}/image`,
+            port: 80,
+            method:"GET",
+            encoding: 'base64',
+            headers:{
+                'X-Tableau-Auth': token,
+            },
+        },
+        function(error, response, body){
+
+            if(error){
+                console.log("Error in fetching data source")
+                return
+            }
+            res.send(body)
+
         }
     );  
 })
