@@ -94,7 +94,7 @@ var initializeViz = (url,workbookID,viewID) => {
         clearCurrentFilter(Activesheet)
       }
       else if(typeof Activesheet.getWorksheets !== 'undefined'){
-        sheets = Activesheet.getWorksheets()
+        // sheets = Activesheet.getWorksheets()
         // for(sheet of sheets){
         //   clearCurrentFilter(sheet)
         // }
@@ -108,7 +108,6 @@ var initializeViz = (url,workbookID,viewID) => {
 
 
 var clearCurrentFilter = (Activesheet) => {
-  console.log("inside clear current filter")
   Activesheet.getFiltersAsync().always(filters=>{
     filterNameList = []
     filters.forEach(item=>{
@@ -134,20 +133,20 @@ var applyFilterValue = (filterName,value) => {
   var Activesheet = viz.getWorkbook().getActiveSheet();
 
   if(typeof Activesheet.getWorksheets !== 'undefined'){
-    sheets = Activesheet.getWorksheets()
-    for(sheet of sheets){
-      if (value === "") {
-        sheet.clearFilterAsync(filterName);
-      } else {
-        sheet.applyFilterAsync(filterName, value, tableau.FilterUpdateType.REPLACE);
-      }
-    }
+    // sheets = Activesheet.getWorksheets()
+    // for(sheet of sheets){
+    //   if (value === "") {
+    //     sheet.clearFilterAsync(filterName);
+    //   } else {
+    //     sheet.applyFilterAsync(filterName, value, tableau.FilterUpdateType.REPLACE);
+    //   }
+    // }
   }
   else{
     if (value === "") {
-      sheet.clearFilterAsync(filterName);
+      Activesheet.clearFilterAsync(filterName);
     } else {
-      sheet.applyFilterAsync(filterName, value, tableau.FilterUpdateType.REPLACE);
+      Activesheet.applyFilterAsync(filterName, value, tableau.FilterUpdateType.REPLACE);
     }
   }
  
@@ -155,8 +154,7 @@ var applyFilterValue = (filterName,value) => {
 
 
 var createFilterDataSource = (Activesheet) => {
-  console.log("inside createFilterDataSource")
-  debugger
+  
   Activesheet.getDataSourcesAsync().then((response)=>{
       var dimensionFields = []
       var dimensionFieldsPosMapping = {}
@@ -203,12 +201,13 @@ var createFilterDataSource = (Activesheet) => {
           for(dimension in dimensionFieldFilterData){
             dimensionFieldFilterData[dimension].data.size ? '' : delete dimensionFieldFilterData[dimension]
           }
-          console.log("dimension data",dimensionFieldFilterData)
           
           for(filterName in dimensionFieldFilterData){
             filterDataType = dimensionFieldFilterData[filterName].dataType
             filterValues = Array.from(dimensionFieldFilterData[filterName].data)
-            createFilter(filterName,filterDataType,filterValues)
+            
+            dimensionFieldFilterData[`${filterName}`].filterCreated ? '' : createFilter(filterName,filterDataType,filterValues)
+            dimensionFieldFilterData[`${filterName}`].filterCreated = true
           }
       })
   })
