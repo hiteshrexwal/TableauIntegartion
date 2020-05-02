@@ -1,5 +1,5 @@
 const tableauBaseUrl = 'https://prod-apnortheast-a.online.tableau.com'
-const siteName = 'wng'
+const siteName = 'ibizsoftanalytics'
 const NodeCache = require( "node-cache" );
 const myCache = new NodeCache();
 
