@@ -18,7 +18,7 @@
     "node-cache": "^5.1.0",
     "nouislider": "^14.1.1",
     "popper.js": "^1.14.7",
-    "pug": "2.0.0-beta11",
+    "pug": "3.0.1",
     "request": "^2.88.2",
     "xml2json": "^0.12.0"
   }
